@@ -1,14 +1,24 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
-import ProductCard from './components/productCard'
+import Test from './components/test'
+import HomePage from "./pages/homePage";
+import LoginPage from "./pages/loginPage";
+import RegisterPage from "./pages/registerPage";
+import AdminPage from "./pages/adminPage";
 
 function App() {
 
   return (
-    <>
-      <ProductCard name="Laptop" price="100,000.00" img="https://picsum.photos/id/1/200/300"/>
-      <ProductCard name="Phone" price="50,000.00" img="https://picsum.photos/id/2/200/300"/>
-      <ProductCard name="Tablet" price="30,000.00" img="https://picsum.photos/id/3/200/300"/>
-    </>
+    <BrowserRouter>
+      <div className='w-full h-screen'>
+        <Routes path="/">
+          <Route path="/" element={<HomePage/>}/>
+          <Route path="/login" element={<LoginPage/>}/>
+          <Route path="/register" element={<RegisterPage/>}/>
+          <Route path="/admin" element={<AdminPage/>} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   )
 }
 

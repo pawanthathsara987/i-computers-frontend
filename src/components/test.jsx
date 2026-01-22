@@ -3,7 +3,7 @@ import { useState } from "react";
 function Test() {
 
     const [count , setCount] = useState(0);
-    const [status, setStatus] =useState("🌞");
+    const [status, setStatus] =useState();
 
     return (
         <div className="w-full h-full flex flex-col justify-center items-center">
