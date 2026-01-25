@@ -4,11 +4,13 @@ import HomePage from "./pages/homePage";
 import LoginPage from "./pages/loginPage";
 import RegisterPage from "./pages/registerPage";
 import AdminPage from "./pages/adminPage";
+import { Toaster } from 'react-hot-toast';
 
 function App() {
 
   return (
     <BrowserRouter>
+    <Toaster position='top-right' />
       <div className='w-full h-screen'>
         <Routes>
           <Route path="/*" element={<HomePage/>}/>

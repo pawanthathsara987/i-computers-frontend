@@ -1,16 +1,44 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo-removebg.png';
 import { useState } from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 function LoginPage() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    function login(){
+    const navigate = useNavigate();
+
+    async function login() {
         console.log("Login button clicked");
         console.log("Email:", email);
         console.log("Password:", password);
+
+        try {
+
+            const res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/users/login", {
+                email: email,
+                password: password
+            });
+
+            if (res.data.role === 'admin') {
+                //window.location.href = '/admin';
+                navigate('/admin');
+            } else {
+                //window.location.href = '/';
+                navigate('/');
+            }
+
+            console.log("Response from server:", res.data);
+            toast.success("Login successful!");
+
+        } catch (error) {
+            toast.error("Login failed. Please check your credentials and try again.");
+            console.error("Error during login:", error);
+        }
+
     }
 
     return (
