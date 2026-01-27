@@ -8,7 +8,7 @@ import axios from "axios";
 function AdminAddProductPage() {
 
     const [productID, setProductID] = useState("");
-    const [name, setName] = useState("");
+    const [productName, setProductName] = useState("");
     const [altNames, setAltNames] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
@@ -29,7 +29,7 @@ function AdminAddProductPage() {
             return;
         }
 
-        if (productID == "" || name == "" || description == "" || category == "" || brand == "" || model == "") {
+        if (productID == "" || productName == "" || description == "" || category == "" || brand == "" || model == "") {
             toast.error("Please fill in all fields.");
             return;
         }
@@ -41,7 +41,7 @@ function AdminAddProductPage() {
 
             await axios.post(import.meta.env.VITE_BACKEND_URL + "/products/", {
                 productID: productID,
-                name: name,
+                productName: productName,
                 altNames: altNamesInArray,
                 description: description,
                 price: price,
@@ -80,7 +80,7 @@ function AdminAddProductPage() {
                     </div>
                     <div className="my-[10px] w-[40%]">
                         <label>Name</label>
-                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full h-[40px] rounded-2xl focus:ring-2 focus:ring-accent  border border-accent shadow-2xl px-[20px]" />
+                        <input type="text" value={productName} onChange={(e) => setProductName(e.target.value)} className="w-full h-[40px] rounded-2xl focus:ring-2 focus:ring-accent  border border-accent shadow-2xl px-[20px]" />
                     </div>
                     <div className="my-[10px] w-full">
                         <label>Alternative Names</label>
@@ -134,9 +134,9 @@ function AdminAddProductPage() {
                     </div>
                     <div className="my-[10px] w-[40%]">
                         <label>Available</label>
-                        <select value={isAvailable} onChange={(e) => setIsAvailable(e.target.value)} className="w-full h-[40px] rounded-2xl focus:outline-none focus:ring-2 focus:ring-accent border">
-                            <option value={false}>No</option>
-                            <option value={true}>Yes</option>
+                        <select value={isAvailable} onChange={(e) => setIsAvailable(e.target.value === "true")} className="w-full h-[40px] rounded-2xl focus:outline-none focus:ring-2 focus:ring-accent border">
+                            <option value="false">No</option>
+                            <option value="true">Yes</option>
                         </select>
                     </div>
                     <div className="my-[10px] w-full flex flex-row flex-wrap justify-between">
