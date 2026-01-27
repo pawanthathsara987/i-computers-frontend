@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import Loader from "../../components/loader";
 
 const products = [
     {
@@ -62,17 +64,23 @@ const products = [
 function AdminProductPage() {
 
     const [products, setProducts] = useState([]);
+    const [loaded, setLoaded] = useState(false);
+
 
     useEffect(() => {
-        axios.get(import.meta.env.VITE_BACKEND_URL + "/products/")
-            .then((response) => {
-                console.log(response.data);
-                setProducts(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }, []);
+        if (!loaded) {
+            axios.get(import.meta.env.VITE_BACKEND_URL + "/products/")
+                .then((response) => {
+                    console.log(response.data);
+                    setProducts(response.data);
+                    setLoaded(true);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+
+    }, [loaded]);
 
     return (
         <div className="w-full min-h-screen bg-primary p-10 flex justify-center">
@@ -83,7 +91,7 @@ function AdminProductPage() {
                 </h1>
 
                 <div className="overflow-auto rounded-xl border border-secondary/20">
-                    <table className="w-full border-collapse">
+                    {loaded?<table className="w-full border-collapse">
                         <thead className="bg-accent text-white sticky top-0 z-10">
                             <tr className="text-left text-sm uppercase tracking-wider">
                                 <th className="p-4">Image</th>
@@ -96,6 +104,7 @@ function AdminProductPage() {
                                 <th className="p-4">Model</th>
                                 <th className="p-4 text-center">Stock</th>
                                 <th className="p-4 text-center">Available</th>
+                                <th className="p-4 text-center">Actions</th>
                             </tr>
                         </thead>
 
@@ -156,12 +165,33 @@ function AdminProductPage() {
                                                     )
                                                 }
                                             </td>
+                                            <td className="p-4 text-sm text-center">
+                                                <button onClick={
+                                                    () => {
+                                                        const token = localStorage.getItem("token");
+
+                                                        axios.delete(import.meta.env.VITE_BACKEND_URL + "/products/" + item.productID, {
+                                                            headers: {
+                                                                Authorization: `Bearer ${token}`
+                                                            }
+                                                        })
+                                                            .then(() => {
+                                                                toast.success("Product deleted successfully!");
+                                                                setLoaded(false);
+                                                            })
+                                                            .catch((err) => {
+                                                                toast.error("Error deleting product. Please try again.");
+                                                                console.log(err);
+                                                            })
+                                                    }
+                                                } className="w-[100px] bg-red-500 flex justify-center items-center text-white p-2 rounded-xl cursor-pointer hover:bg-red-700">Delete</button>
+                                            </td>
                                         </tr>
                                     );
                                 })
                             }
                         </tbody>
-                    </table>
+                    </table>:<Loader />}
                 </div>
 
                 {/* Floating Add Button */}
