@@ -117,6 +117,7 @@ function AdminAddProductPage() {
                             <option value="smartphones">Smartphones</option>
                             <option value="tablets">Tablets</option>
                             <option value="cables">Cables</option>
+                            <option value="Mouse">Mouse</option>
                             <option value="others">Others</option>
                         </select>
                     </div>
