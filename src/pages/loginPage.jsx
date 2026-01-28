@@ -26,10 +26,10 @@ function LoginPage() {
             localStorage.setItem("token", res.data.token);
 
             if (res.data.role === 'admin') {
-                //window.location.href = '/admin';
+                
                 navigate('/admin');
             } else {
-                //window.location.href = '/';
+                
                 navigate('/');
             }
 
