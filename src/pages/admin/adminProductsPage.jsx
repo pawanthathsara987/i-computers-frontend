@@ -2,64 +2,10 @@ import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import Loader from "../../components/loader";
+import ProductDeleteButton from "../../components/productDeleteButton";
 
-const products = [
-    {
-        productID: "KB-LOGI-G213",
-        productName: "Logitech G213 RGB Gaming Keyboard",
-        altNames: ["G213", "Logitech RGB Keyboard", "Logitech G Keyboard"],
-        description: "Logitech G213 RGB gaming keyboard with LIGHTSYNC RGB lighting, dedicated media controls, and spill-resistant design.",
-        price: 59.99,
-        labelPrice: 79.99,
-        images: [
-            "https://example.com/images/logitech-g213-1.jpg",
-            "https://example.com/images/logitech-g213-2.jpg"
-        ],
-        category: "Keyboard",
-        model: "G213",
-        brand: "Logitech",
-        stock: 45,
-        isAvailable: true
-    },
-
-    {
-        productID: "MS-RAZER-DEATHADDER-V2",
-        productName: "Razer DeathAdder V2 Gaming Mouse",
-        altNames: ["DeathAdder V2", "Razer Gaming Mouse"],
-        description: "Razer DeathAdder V2 ergonomic gaming mouse with optical switches, 20K DPI sensor, and ultra-lightweight design.",
-        price: 49.99,
-        labelPrice: 69.99,
-        images: [
-            "https://example.com/images/razer-deathadder-v2-1.jpg",
-            "https://example.com/images/razer-deathadder-v2-2.jpg"
-        ],
-        category: "Mouse",
-        model: "DeathAdder V2",
-        brand: "Razer",
-        stock: 60,
-        isAvailable: true
-    },
-
-    {
-        productID: "HP-HYPERX-CLOUD-II",
-        productName: "HyperX Cloud II Gaming Headset",
-        altNames: ["Cloud II", "HyperX Gaming Headset"],
-        description: "HyperX Cloud II gaming headset with 7.1 virtual surround sound, memory foam ear cushions, and detachable noise-cancelling microphone.",
-        price: 79.99,
-        labelPrice: 99.99,
-        images: [
-            "https://example.com/images/hyperx-cloud-ii-1.jpg",
-            "https://example.com/images/hyperx-cloud-ii-2.jpg"
-        ],
-        category: "Headset",
-        model: "Cloud II",
-        brand: "HyperX",
-        stock: 30,
-        isAvailable: true
-    }
-];
+const products = [];
 
 function AdminProductPage() {
 
@@ -91,7 +37,7 @@ function AdminProductPage() {
                 </h1>
 
                 <div className="overflow-auto rounded-xl border border-secondary/20">
-                    {loaded?<table className="w-full border-collapse">
+                    {loaded ? <table className="w-full border-collapse">
                         <thead className="bg-accent text-white sticky top-0 z-10">
                             <tr className="text-left text-sm uppercase tracking-wider">
                                 <th className="p-4">Image</th>
@@ -166,32 +112,14 @@ function AdminProductPage() {
                                                 }
                                             </td>
                                             <td className="p-4 text-sm text-center">
-                                                <button onClick={
-                                                    () => {
-                                                        const token = localStorage.getItem("token");
-
-                                                        axios.delete(import.meta.env.VITE_BACKEND_URL + "/products/" + item.productID, {
-                                                            headers: {
-                                                                Authorization: `Bearer ${token}`
-                                                            }
-                                                        })
-                                                            .then(() => {
-                                                                toast.success("Product deleted successfully!");
-                                                                setLoaded(false);
-                                                            })
-                                                            .catch((err) => {
-                                                                toast.error("Error deleting product. Please try again.");
-                                                                console.log(err);
-                                                            })
-                                                    }
-                                                } className="w-[100px] bg-red-500 flex justify-center items-center text-white p-2 rounded-xl cursor-pointer hover:bg-red-700">Delete</button>
+                                                <ProductDeleteButton productID = {item.productID} reload={ () => {setLoaded(false)}} />
                                             </td>
                                         </tr>
                                     );
                                 })
                             }
                         </tbody>
-                    </table>:<Loader />}
+                    </table> : <Loader />}
                 </div>
 
                 {/* Floating Add Button */}
