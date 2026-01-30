@@ -64,25 +64,3 @@ function ProductDeleteButton(props) {
 }
 
 export default ProductDeleteButton;
-
-/*<button onClick={
-                                                    () => {
-                                                        const token = localStorage.getItem("token");
-
-                                                        axios.delete(import.meta.env.VITE_BACKEND_URL + "/products/" + item.productID, {
-                                                            headers: {
-                                                                Authorization: `Bearer ${token}`
-                                                            }
-                                                        })
-                                                            .then(() => {
-                                                                toast.success("Product deleted successfully!");
-                                                                setLoaded(false);
-                                                            })
-                                                            .catch((err) => {
-                                                                toast.error("Error deleting product. Please try again.");
-                                                                console.log(err);
-                                                            })
-                                                    }
-                                                } className="w-[100px] bg-red-500 flex justify-center items-center text-white p-2 rounded-xl cursor-pointer hover:bg-red-700">
-                                                    Delete
-                                                </button> */
