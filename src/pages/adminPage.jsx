@@ -5,6 +5,7 @@ import { LuBoxes, LuUsers } from "react-icons/lu";
 import { MdOutlineRateReview } from "react-icons/md";
 import AdminProductPage from "./admin/adminProductsPage";
 import AdminAddProductPage from "./admin/adminAddProductPage";
+import AdminUpdateProductPage from "./admin/adminUpdateProductPage";
 
 function AdminPage() {
     return (
@@ -26,6 +27,7 @@ function AdminPage() {
                     <Route path="/" element={<h1>Orders</h1>} />
                     <Route path="/products" element={<AdminProductPage/>} />
                     <Route path="/add-product" element={<AdminAddProductPage/>} />
+                    <Route path="/update-product" element={<AdminUpdateProductPage/>}/>
                     <Route path="/users" element={<h1>Users</h1>} />
                     <Route path="/reviews" element={<h1>Reviews</h1>} />
                 </Routes>
