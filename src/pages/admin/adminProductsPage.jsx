@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -11,7 +11,7 @@ function AdminProductPage() {
 
     const [products, setProducts] = useState([]);
     const [loaded, setLoaded] = useState(false);
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!loaded) {
@@ -112,7 +112,18 @@ function AdminProductPage() {
                                                 }
                                             </td>
                                             <td className="p-4 text-sm text-center">
-                                                <ProductDeleteButton productID = {item.productID} reload={ () => {setLoaded(false)}} />
+                                                <div className="inline-flex items-center gap-2">
+                                                    {/* <Link to="/admin/update-product" state={item} className="px-3 py-2 rounded-md w-[70px] text-center bg-accent/20 text-accent">Edit</Link> */}
+                                                    <button 
+                                                        onClick={ () => {
+                                                            navigate("/admin/update-product", {state : item});
+                                                        }}
+                                                        className="px-3 py-2 rounded-md w-[70px] text-center bg-accent/20 text-accent">
+                                                        Edit
+                                                    </button>
+                                                    <ProductDeleteButton productID={item.productID} reload={() => { setLoaded(false) }} />
+                                                </div>
+
                                             </td>
                                         </tr>
                                     );
