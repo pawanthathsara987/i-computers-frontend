@@ -1,9 +1,12 @@
 
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY);
+const supabase = createClient(
+    import.meta.env.VITE_SUPABASE_URL, 
+    import.meta.env.VITE_SUPABASE_KEY
+);
 
-function uploadFile(file) {
+async function uploadFile(file) {
     return new Promise(
         (resolve, reject) => {
             const timeStamp = Date.now();
@@ -13,7 +16,7 @@ function uploadFile(file) {
                 upsert: false
             }).then(
                 () => {
-                    const publicURL = supabase.storage.from("i-computers-images").getPublicUrl(file.name).data.publicUrl;
+                    const publicURL = supabase.storage.from("i-computers-images").getPublicUrl(fileName).data.publicUrl;
                     resolve(publicURL);
                 }
             ).catch( 
