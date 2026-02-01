@@ -11,7 +11,7 @@ function ProductCard(props) {
         <img src={product.images[1]} className="w-full h-full absolute bg-white object-cover" />
         <img src={product.images[0]} className="w-full h-full absolute bg-white primary-image transition-opacity duration-500 object-cover" />
       </div>
-      <div className="w-full h-[150px] p-2 flex flex-col justify-between bg-accent">
+      <div className="w-full h-[150px] p-2 flex flex-col justify-between">
         <h1 className="text-lg text-center">{product.productName}</h1>
         <div className="w-full flex flex-col items-center justify-center">
           {
