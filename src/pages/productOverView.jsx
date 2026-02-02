@@ -1,13 +1,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast/headless";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../components/loader";
 import ImageSlider from "../components/imageSlider";
 import { CgChevronRight } from "react-icons/cg";
+import { addToCart } from "../utils/cart";
 
 function ProductOverView() {
 
+    const navigate = useNavigate();
     const params = useParams();
     console.log(params.productID);
 
@@ -60,10 +62,23 @@ function ProductOverView() {
                             </h2>
                         </div>
                         <div className="w-full flex flex-row gap-4 mt-4">
-                            <button className="border-2 border-accent bg-accent text-white px-6 py-3 rounded hover:bg-white/90 hover:text-accent transition">
+                            <button
+                            onClick={() => {
+                                addToCart(product, 1);
+                            }} className="border-2 border-accent bg-accent text-white px-6 py-3 rounded hover:bg-white/90 hover:text-accent transition">
                                 Add to Cart
                             </button>
-                            <button className="border-2 border-accent text-accent px-6 py-3 rounded hover:bg-accent hover:text-white transition">
+                            <button
+                            onClick={() => {
+                                navigate("/checkout", {state: [{
+                                    productID:product.productID,
+                                    name:product.productName,
+                                    price:product.price,
+                                    labelPrice:product.labelPrice,
+                                    image:product.images[0],
+                                    quantity:1
+                                }]})
+                            }} className="border-2 border-accent text-accent px-6 py-3 rounded hover:bg-accent hover:text-white transition">
                                 Buy Now
                             </button>
                         </div>
