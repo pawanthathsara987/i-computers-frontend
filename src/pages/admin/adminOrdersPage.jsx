@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Loader from "../../components/loader";
+import ViewOrderInfo from "../../components/viewOrderInfo";
 
 
 
@@ -41,7 +42,7 @@ function AdminOrdersPage() {
 
                 <div className="overflow-auto rounded-xl border border-secondary/20">
                     {loaded ? <table className="w-full border-collapse">
-                        <thead className="bg-accent text-white sticky top-0 z-10">
+                        <thead className="bg-accent text-white sticky top-0">
                             <tr className="text-left text-sm uppercase tracking-wider">
                                 <th className="p-4">Order ID</th>
                                 <th className="p-4">Customer Email</th>
@@ -80,7 +81,7 @@ function AdminOrdersPage() {
                                                 LKR. {order.total.toFixed(2)}
                                             </td>
                                             <td className="p-4 text-sm text-secondary">
-
+                                                <ViewOrderInfo order={order} />
                                             </td>
                                         </tr>
                                     );
