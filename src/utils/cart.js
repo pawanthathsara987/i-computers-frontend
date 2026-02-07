@@ -1,18 +1,18 @@
 import toast from "react-hot-toast";
 
-export function getCart(){
+export function getCart() {
     let cartString = localStorage.getItem("cart");
 
-    if(cartString == null){
+    if (cartString == null) {
         localStorage.setItem("cart", "[]");
         return [];
-    }else{
+    } else {
         const cart = JSON.parse(cartString);
         return cart;
     }
 }
 
-export function addToCart(product, quantity){
+export function addToCart(product, quantity) {
     const cart = getCart();
 
     //check if product is alreadly in cart
@@ -22,7 +22,7 @@ export function addToCart(product, quantity){
             return item.productID == product.productID
         }
     );
-    if(index == -1){
+    if (index == -1) {
         cart.push(
             {
                 productID: product.productID,
@@ -34,16 +34,16 @@ export function addToCart(product, quantity){
             }
         )
 
-        toast.success(`${product.productName }Product Added to the Cart`);
+        toast.success(`${product.productName}Product Added to the Cart`);
 
-    }else{
+    } else {
         const newQnty = cart[index].quantity + quantity
 
-        if(newQnty <= 0){
+        if (newQnty <= 0) {
             cart.splice(index, 1);
-            toast.success(`${product.productName } removed from cart`);
-        }else{
-            cart[index].quantity =newQnty;
+            toast.success(`${product.productName} removed from cart`);
+        } else {
+            cart[index].quantity = newQnty;
             toast.success(`Updated ${product.productName} Quantity to ${newQnty}`);
         }
     }
@@ -52,11 +52,11 @@ export function addToCart(product, quantity){
     localStorage.setItem("cart", cartString);
 }
 
-export function emptyCart(){
+export function emptyCart() {
     localStorage.setItem("cart", "[]");
 }
 
-export function getCartTotal(){
+export function getCartTotal() {
     let total = 0;
     const cart = getCart();
 
