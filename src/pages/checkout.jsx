@@ -3,6 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { useLocation, useNavigate } from "react-router-dom";
+import { emptyCart } from "../utils/cart.js";
 
 export default function CheckoutPage() {
 
@@ -57,6 +58,8 @@ export default function CheckoutPage() {
                 }
             }
         ).then(() => {
+            emptyCart();        
+            setCart([]);
             toast.success("Order placed successfully!");
             navigate("/orders");
 
