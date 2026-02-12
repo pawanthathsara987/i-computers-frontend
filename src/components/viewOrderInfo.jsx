@@ -1,4 +1,6 @@
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import Modal from "react-modal";
 
 
@@ -26,11 +28,18 @@ const customStyles = {
 };
 
 export default function ViewOrderInfo({ order }) {
+
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-
     const [status, setStatus] = useState(order.status);
-    const [notes, setNotes] = useState(order.notes);
+    const [notes, setNotes] = useState(order.notes || "");
+
+    useEffect(() => {
+        setNotes(order.notes || "");
+        setStatus(order.status || "");
+    }, [order]);
+
+    const hasChanges = (order?.notes || "")!== notes || order?.status !== status ;
+
 
     if (!order) return null;
 
@@ -65,9 +74,6 @@ export default function ViewOrderInfo({ order }) {
                 return 'bg-gold/20 text-yellow-700 border-gold/40';
         }
     };
-
-    // Check if there are unsaved changes
-    const hasChanges = status !== order.status || notes !== order.notes;
 
     return (
         <>
@@ -239,23 +245,38 @@ export default function ViewOrderInfo({ order }) {
                     <div className="bg-gray-50 p-4 border-t border-primary flex justify-end gap-3">
                         <button
                             onClick={() => setIsModalOpen(false)}
+
                             className="px-6 py-2 rounded-lg text-secondary font-medium hover:bg-gray-200 transition-colors cursor-pointer"
                         >
                             Close
                         </button>
 
-                        {/* Normalized check: (notes || "") compares empty string to empty string if null */}
-                        {((order.notes || "") !== notes || order.status !== status) && (
+                        {hasChanges && (
                             <button
                                 onClick={() => {
                                     console.log("Saving changes:", { orderId: order.orderId, status, notes });
-                                    // Add your API call here: 
-                                    // axios.put('/api/orders', { orderId: order.orderId, status, notes })
-                                    setIsModalOpen(false);
+                                    const token = localStorage.getItem("token");
+                                    axios.put(import.meta.env.VITE_BACKEND_URL + `/orders/${order.orderId}`,
+                                    {    
+                                        status: status,
+                                        notes: notes
+                                    },{
+                                        headers: {
+                                            Authorization: `Bearer ${token}`
+                                        }
+                                    }).then(() => {
+                                        toast.success("Order updated successfully");
+                                        setIsModalOpen(false);
+                                    }).catch((error) => {
+                                        toast.error("Failed to update order. Please try again.");
+                                        console.log(error);
+                                    });
                                 }}
                                 className="bg-accent text-white px-6 py-2 rounded-lg font-medium hover:bg-accent/90 transition-colors flex items-center gap-2 cursor-pointer shadow-lg shadow-accent/20"
                             >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
                                 Save Changes
                             </button>
                         )}
