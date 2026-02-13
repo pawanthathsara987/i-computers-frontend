@@ -1,12 +1,17 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/logo-removebg.png";
 import { BiShoppingBag } from "react-icons/bi";
+import { LuListCollapse } from "react-icons/lu";
+import { useState } from "react";
+
 
 function Header() {
+    const [sideBarOpen, setSideBarOpen] = useState(false);
     return (
         <header className="w-full h-[100px] bg-accent flex relative">
+            <LuListCollapse onClick={() => { setSideBarOpen(true) }} className="text-white my-auto text-2xl ml-6 lg:hidden" />
             <img src={logo} alt="Logo" className="h-full" />
-            <div className="w-full h-full text-primary text-xl gap-[20px] flex justify-center items-center">
+            <div className="w-full h-full hidden lg:flex text-primary text-xl gap-[20px] justify-center items-center">
                 <Link to="/" >Home</Link>
                 <Link to="/products" >Products</Link>
                 <Link to="/about" >About</Link>
@@ -15,6 +20,27 @@ function Header() {
             <Link to="/cart" className="absolute right-4 top=1/2 translate-y-1/2 text-primary text-2xl">
                 <BiShoppingBag />
             </Link>
+            {sideBarOpen && <div className="fixed lg:hidden w-[100nw] h-screen top-0 left-0 bg-black/50 z-20 transition-all duration-300">
+                <div className="bg-white w-[250px] h-screen flex-col relative">
+                    <div className="absolute w-full h-full bg-white left-[-250px] translate-x-[250px] transform-flat transition-transform duration-300 flex flex-col">
+                        <div className="w-full h-[100px] bg-accent flex justify-center items-center">
+                            <img src="../assets/logo-removebg.png" className="h-full" alt="logo" />
+                            <LuListCollapse onClick={() => { setSideBarOpen(false) }} className="text-white my-auto text-2xl ml-6 lg:hidden rotate-180" />
+                        </div>
+                        <div className="w-full h-full flex flex-col text-xl text-accent justify-start items-start gap-[50px] ml-[20px] ">
+                            <a className="hover:text-secondary transition" href="/" onClick={() => { setSideBarOpen(false) }}>
+                                Home
+                            </a>
+                            <a className="hover:text-secondary transition" href="/products" onClick={() => { setSideBarOpen(false) }}>
+                                Products
+                            </a>
+                            <a className="hover:text-secondary transition" href="/about" onClick={() => { setSideBarOpen(false) }}>
+                                About
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>}
         </header>
     );
 }
