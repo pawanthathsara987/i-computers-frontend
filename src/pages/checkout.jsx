@@ -58,7 +58,7 @@ export default function CheckoutPage() {
                 }
             }
         ).then(() => {
-            emptyCart();        
+            emptyCart();
             setCart([]);
             toast.success("Order placed successfully!");
             navigate("/orders");
@@ -75,9 +75,20 @@ export default function CheckoutPage() {
                 cart.map(
                     (item, index) => {
                         return (
-                            <div className="w-[50%] h-[150px] rounded-xl overflow-hidden shadow-2xl my-1 flex justify-between">
-                                <img src={item.image} className="h-full aspect-square object-cover" />
-                                <div className="flex flex-col justify-center pl-4 w-[300px]">
+                            <div key={index} className="w-full lg:w-[50%] lg:h-[150px] pt-[25px] relative rounded-xl overflow-hidden shadow-2xl my-1 flex justify-between">
+                                <h1 className="lg:hidden w-full overflow-hidden h-[25px] absolute top-0">{item.productName}</h1>
+                                <div className="h-full flex flex-col">
+                                    <img src={item.image} className="h-[80px] lg:h-full aspect-square object-cover" />
+                                    {
+                                        item.labelPrice > item.price && (
+                                            <h2 className="text-secondary/80 line-through decoration-gold/70 decoration-2 mr-2 text-sm">
+                                                LKR. {item.labelPrice.toFixed(2)}
+                                            </h2>
+                                        )}
+                                    <h2 className="text-sm text-accent font-semibold mt-2">LKR. {item.price.toFixed(2)}</h2>
+
+                                </div>
+                                <div className="hidden lg:flex flex-col justify-center pl-4 w-[300px]">
                                     <h1 className="text-2xl font-semibold relative hover:[&_.tooltip]:opacity-100">
                                         <span className="opacity-0 tooltip italic text-sm absolute bottom-[-50px] bg-accent text-white p-2 rounded-lg ">{item.productName}</span>
                                         {
@@ -95,7 +106,7 @@ export default function CheckoutPage() {
                                     <h2 className="text-xl text-accent font-semibold mt-2">LKR. {item.price.toFixed(2)}</h2>
                                     <h3 className="text-lg mt-2">{item.productID}</h3>
                                 </div>
-                                <div className="h-full flex flex-row items-center gap-4">
+                                <div className="min-h-full flex flex-row items-center gap-4">
                                     <div className="h-full flex flex-col justify-center items-center">
                                         <BiChevronUp
                                             onClick={
@@ -129,8 +140,8 @@ export default function CheckoutPage() {
                     }
                 )
             }
-            <div className="w-[50%] p-4 rounded-xl overflow-hidden shadow-2xl my-1 flex flex-wrap justify-between items-center">
-                <div className="flex flex-col w-[50%] ">
+            <div className=" lg:w-[50%] p-4 rounded-xl overflow-hidden shadow-2xl my-1 flex flex-wrap justify-between items-center">
+                <div className="flex flex-col lg:w-[50%] ">
                     <label>Name</label>
                     <input
                         type="text"
@@ -139,7 +150,7 @@ export default function CheckoutPage() {
                         className=" px-6 py-3 rounded border border-secondary/80 focus:border-accent outline-none transition w-[300px]" />
                 </div>
 
-                <div className="flex flex-col w-[50%] ">
+                <div className="flex flex-col lg:w-[50%] ">
                     <label>Phone</label>
                     <input
                         type="text"
@@ -157,7 +168,7 @@ export default function CheckoutPage() {
                         className=" px-6 py-3 rounded border border-secondary/80 focus:border-accent outline-none transition w-full" />
                 </div>
             </div>
-            <div className="w-[50%] h-[150px] rounded-xl overflow-hidden shadow-2xl my-1 flex justify-between items-center">
+            <div className="lg:w-[50%] h-[150px] rounded-xl overflow-hidden shadow-2xl my-1 flex justify-between items-center">
                 <button
                     onClick={submitOrder}
                     className="self-center ml-4 px-6 py-3 rounded bg-accent text-white hover:bg-accent/90 transition">
