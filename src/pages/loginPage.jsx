@@ -3,14 +3,45 @@ import logo from '../assets/logo-removebg.png';
 import { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { GrGoogle } from 'react-icons/gr';
+import { useGoogleLogin } from '@react-oauth/google';
 
 function LoginPage() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+    const googleLogin = useGoogleLogin({
+        onSuccess: (response) => {
+            console.log(response);
+            setIsLoading(true);
+            axios.post(import.meta.env.VITE_BACKEND_URL + "/users/google-login",{
+                token: response.access_token,
+            }).then((res) => {
+                localStorage.setItem("token", res.data.token);
+                if(res.data.role == "admin"){
+                    navigate("/admin");
+                }else{
+                    navigate("/");
+                }
+                toast.success("Login successfull!");
+
+            }).catch((err) => {
+                console.log(err);
+            });
+
+            setIsLoading(false);
+        },
+        onError: () => {
+            toast.error("Google Login Failed");
+        },
+        onNonOAuthError: () => {
+            toast.error("Google Login Failed");
+        }
+    });
+
+
 
     async function login() {
         console.log("Login button clicked");
@@ -29,10 +60,10 @@ function LoginPage() {
             localStorage.setItem("token", res.data.token);
 
             if (res.data.role === 'admin') {
-                
+
                 navigate('/admin');
             } else {
-                
+
                 navigate('/');
             }
 
@@ -79,14 +110,20 @@ function LoginPage() {
                         Forget your password? <Link to="/reset-password" className='text-gold font-bold cursor-pointer'>Reset it here</Link>
                     </p>
 
-                    <button onClick={login} className='w-[85%] h-[50px] bg-gold text-accent mt-[10px] font-bold text-[20px] rounded-lg hover:bg-accent hover:text-gold transition duration-300'>Login</button>
+                    <button onClick={login} className='w-[85%] h-[50px] bg-gold text-accent mt-[10px] font-bold text-[20px] rounded-lg hover:bg-accent hover:text-gold transition duration-300'>
+                        Login
+                    </button>
+
+                    <button onClick={googleLogin} className='w-[85%] h-[50px] mt-[20px] bg-gold text-accent mt-[10px] font-bold text-[20px] rounded-lg hover:bg-accent hover:text-gold transition duration-300'>
+                        Login with <GrGoogle className='inline ml-2 mb-1' />
+                    </button>
 
                     <p className='text-white mt-[10px]'>
                         Don't have an account? <Link to="/register" className='text-gold font-bold cursor-pointer'>Sign Up</Link>
                     </p>
                 </div>
             </div>
-             {isLoading && <Loader />}
+            {isLoading && <Loader />}
         </div>
     );
 }
