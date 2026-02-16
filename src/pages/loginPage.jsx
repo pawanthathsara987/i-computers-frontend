@@ -8,6 +8,7 @@ function LoginPage() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -15,6 +16,8 @@ function LoginPage() {
         console.log("Login button clicked");
         console.log("Email:", email);
         console.log("Password:", password);
+
+        setIsLoading(true);
 
         try {
 
@@ -35,10 +38,12 @@ function LoginPage() {
 
             console.log("Response from server:", res.data);
             toast.success("Login successful!");
+            setIsLoading(false);
 
         } catch (error) {
             toast.error("Login failed. Please check your credentials and try again.");
             console.error("Error during login:", error);
+            setIsLoading(false);
         }
 
     }
@@ -81,6 +86,7 @@ function LoginPage() {
                     </p>
                 </div>
             </div>
+             {isLoading && <Loader />}
         </div>
     );
 }
