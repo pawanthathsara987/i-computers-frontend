@@ -5,6 +5,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { GrGoogle } from 'react-icons/gr';
 import { useGoogleLogin } from '@react-oauth/google';
+import Loader from '../components/loader';
 
 function LoginPage() {
 
