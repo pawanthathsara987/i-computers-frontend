@@ -28,7 +28,7 @@ function UserData() {
             {
                 user ?
                     <div className="w-[150px] flex flex-row">
-                        <img src="/public/user.jpg" className="w-[50px] h-[50px]" />
+                        <img src={user.profileImage} referrerPolicy="no-referrer" className="w-[50px] h-[50px]" />
                         <select className="bg-transparent outline-none ml-2 text-white" value={selectedOption}
                             onChange={(e) => {
                                 if (e.target.value == "logout") {
