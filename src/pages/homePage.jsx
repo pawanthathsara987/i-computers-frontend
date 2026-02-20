@@ -4,6 +4,7 @@ import ProductPage from "./productPage";
 import ProductOverView from "./productOverView";
 import CartPage from "./cart";
 import CheckoutPage from "./checkout";
+import OrdersPage from "./ordersPage";
 
 function HomePage() {
     return (
@@ -18,6 +19,7 @@ function HomePage() {
                     <Route path="/overview/:productID" element={<ProductOverView/>}/>
                     <Route path="/cart" element={<CartPage/>}/>
                     <Route path="/checkout"element={<CheckoutPage />} />
+                    <Route path="/orders" element={<OrdersPage />} />
                     <Route path="/*" element={<h1>Page Not Found</h1>} />
                 </Routes>
             </div>
